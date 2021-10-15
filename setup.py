@@ -22,8 +22,8 @@ with open('README.md') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='streamside',
-    version='0.9',
+    name='elit_tokenizer',
+    version='1.0',
     scripts=[],
     author='Jinho D. Choi',
     author_email='jinho.choi@emory.edu',
