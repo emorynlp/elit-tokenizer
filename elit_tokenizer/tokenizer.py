@@ -28,7 +28,7 @@ from .util import *
 
 
 class Tokenizer:
-    def decode(self, input_text: str, init_offset: int = 0, segment: int = 0) -> Union[Sentence, List[Sentence]]:
+    def decode(self, input_text: str, init_offset: int = 0, segment: int = 0) -> Union[TokenList, List[TokenList]]:
         """
         :param input_text: the input text.
         :param init_offset: the initial offset of the first token.
@@ -37,7 +37,7 @@ class Tokenizer:
         """
         if segment == 0:
             tokens, offsets = self.tokenize(input_text, init_offset)
-            return Sentence(tokens, offsets)
+            return TokenList(tokens, offsets)
         elif segment == 2:
             tokens, offsets = self.tokenize(input_text, init_offset)
             return self.segment(tokens, offsets)
@@ -52,7 +52,7 @@ class Tokenizer:
                 tokens, offsets = self.tokenize(input_text[bidx:eidx], bidx + init_offset)
                 if tokens:
                     if segment == 1:
-                        sentences.append(Sentence(tokens, offsets))
+                        sentences.append(TokenList(tokens, offsets))
                     else:
                         sentences.extend(self.segment(tokens, offsets))
 
@@ -91,15 +91,15 @@ class Tokenizer:
         return [get_offset(token) for token in tokens]
 
     @classmethod
-    def segment(cls, tokens: List[str], offsets: List[Tuple[int, int]]) -> List[Sentence]:
+    def segment(cls, tokens: List[str], offsets: List[Tuple[int, int]]) -> List[TokenList]:
         """
         :param tokens: the list of input tokens.
         :param offsets: the list of offsets, where each offset is a tuple of (begin, end).
         :return: the list of sentences segmented from the input text.
         """
 
-        def sentence(bidx: int, eidx: int) -> Sentence:
-            return Sentence(tokens[bidx:eidx], offsets[bidx:eidx])
+        def sentence(bidx: int, eidx: int) -> TokenList:
+            return TokenList(tokens[bidx:eidx], offsets[bidx:eidx])
 
         right_quote = True
         sentences = []

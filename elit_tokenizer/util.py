@@ -22,8 +22,8 @@ from typing import List, Tuple, Set, Optional
 Offset = Tuple[int, int]
 
 
-class Sentence:
-    def __init__(self, tokens: List[str], offsets: Optional[List[Offset]] = None):
+class TokenList:
+    def __init__(self, tokens: List[str], offsets: List[Offset]):
         """
         :param tokens: a list of tokens.
         :param offsets: a list of offsets corresponding to the tokens where an offset is represented by (begin_index, end_index) (begin_index: incluisve, end_index: exclusive).
@@ -46,7 +46,7 @@ class Sentence:
         self._iter += 1
         if self._iter >= len(self.tokens):
             raise StopIteration
-        return self.tokens[self._iter]
+        return self.tokens[self._iter], self.offsets[self._iter]
 
     def token(self, index) -> Optional[str]:
         """
@@ -60,7 +60,7 @@ class Sentence:
         :param index: a token index.
         :return: the index'th offset if exists; otherwise, (-1, -1)
         """
-        return self.offsets[index] if self.offsets and 0 <= index < len(self.offsets) else (-1, -1)
+        return self.offsets[index] if 0 <= index < len(self.offsets) else (-1, -1)
 
 
 def read_word_set(filename) -> Set[str]:

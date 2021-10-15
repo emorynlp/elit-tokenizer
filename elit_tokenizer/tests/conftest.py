@@ -1,5 +1,5 @@
 # ========================================================================
-# Copyright 2018 ELIT
+# Copyright 2021 Emory University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,14 +22,9 @@ from typing import List
 import pytest
 
 from elit_tokenizer import Tokenizer, SpaceTokenizer, EnglishTokenizer
-from elit_tokenizer.util import Sentence
+from elit_tokenizer.util import TokenList
 
 current_path = os.path.abspath(os.path.dirname(__file__))
-
-
-@pytest.fixture()
-def tokenizer():
-    return Tokenizer()
 
 
 @pytest.fixture()
@@ -44,7 +39,7 @@ def english_tokenizer():
 
 @pytest.fixture
 def test_sentence():
-    def _aux(result: Sentence, expected: Sentence):
+    def _aux(result: TokenList, expected: TokenList):
         assert result.tokens == expected.tokens
         assert result.offsets == expected.offsets
     return _aux
@@ -52,7 +47,7 @@ def test_sentence():
 
 @pytest.fixture
 def test_sentences():
-    def _aux(result: List[Sentence], expected: List[Sentence]):
+    def _aux(result: List[TokenList], expected: List[TokenList]):
         for r, e in zip(result, expected):
             assert r.tokens == e.tokens
             assert r.offsets == e.offsets
